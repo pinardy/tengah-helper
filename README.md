@@ -25,7 +25,7 @@ npm run dev            # terminal 2: Vite dev server (proxies /api to :8788)
 Open the Vite URL for hot-reload development, or `http://localhost:8788` to
 test the production build + service worker.
 
-## Deploy to Cloudflare Pages
+## Deploy to Cloudflare Pages (app + API)
 
 ```sh
 npx wrangler login
@@ -36,6 +36,17 @@ npm run deploy
 
 Then open `https://tengah-helper.pages.dev` on your phone and *Install app*
 (Android Chrome) or *Share → Add to Home Screen* (iOS Safari).
+
+## GitHub Pages (app only)
+
+Every push to `main` triggers `.github/workflows/deploy.yml`, which builds the
+app and publishes it to <https://pinardy.github.io/tengah-helper/>.
+
+GitHub Pages is static-only, so that copy of the app calls the **Cloudflare**
+API (`VITE_API_BASE`, default `https://tengah-helper.pages.dev`) — the
+Cloudflare deployment above must exist for live data, and its function allows
+CORS from `https://pinardy.github.io`. Set a `VITE_API_BASE` repository
+variable if the Cloudflare project uses a different URL.
 
 ## Customising
 
