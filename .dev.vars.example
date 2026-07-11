@@ -1,0 +1,4 @@
+# Copy this file to .dev.vars and fill in your LTA DataMall AccountKey.
+# Register for free at https://datamall.lta.gov.sg (Request for API Access).
+# .dev.vars is gitignored — never commit your real key.
+LTA_ACCOUNT_KEY=your_account_key_here
