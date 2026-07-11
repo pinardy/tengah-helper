@@ -7,6 +7,7 @@ interface Props {
   destination: Destination;
   data: Record<string, BusArrivalResponse>;
   now: Date;
+  highlightServiceNo?: string | null;
 }
 
 interface ResolvedOption {
@@ -15,7 +16,7 @@ interface ResolvedOption {
   nextMins: number | null;
 }
 
-export function DestinationCard({ destination, data, now }: Props) {
+export function DestinationCard({ destination, data, now, highlightServiceNo }: Props) {
   const resolved: ResolvedOption[] = destination.options.map((option) => {
     const service = data[option.boardStopCode]?.Services.find(
       (s) => s.ServiceNo === option.serviceNo,
@@ -45,7 +46,9 @@ export function DestinationCard({ destination, data, now }: Props) {
       {resolved.map(({ option, service, nextMins }, i) => (
         <div
           key={`${option.serviceNo}-${option.boardStopCode}`}
-          className={`option-row ${i === 0 && nextMins !== null ? "option-best" : ""}`}
+          className={`option-row ${i === 0 && nextMins !== null ? "option-best" : ""} ${
+            option.serviceNo === highlightServiceNo ? "option-focus" : ""
+          }`}
         >
           <div className="option-main">
             <span className="service-no">{option.serviceNo}</span>

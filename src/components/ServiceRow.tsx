@@ -1,14 +1,22 @@
 import type { BusService } from "../../shared/lta-types";
 import { ArrivalBadge } from "./ArrivalBadge";
+import { ServiceNo } from "./ServiceNo";
 
 interface Props {
   service: BusService;
   now: Date;
   isFavourite?: boolean;
   onToggleFavourite?: () => void;
+  onSelectService?: (serviceNo: string) => void;
 }
 
-export function ServiceRow({ service, now, isFavourite, onToggleFavourite }: Props) {
+export function ServiceRow({
+  service,
+  now,
+  isFavourite,
+  onToggleFavourite,
+  onSelectService,
+}: Props) {
   return (
     <div className="service-row">
       <span className="service-label">
@@ -21,7 +29,7 @@ export function ServiceRow({ service, now, isFavourite, onToggleFavourite }: Pro
             {isFavourite ? "★" : "☆"}
           </button>
         )}
-        <span className="service-no">{service.ServiceNo}</span>
+        <ServiceNo serviceNo={service.ServiceNo} onSelectService={onSelectService} />
       </span>
       <span className="service-badges">
         <ArrivalBadge bus={service.NextBus} now={now} showMarkers />

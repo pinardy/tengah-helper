@@ -1,15 +1,17 @@
 import type { BusArrivalResponse } from "../../shared/lta-types";
 import { NEARBY_STOPS } from "../config/stops";
 import { ArrivalBadge } from "./ArrivalBadge";
+import { ServiceNo } from "./ServiceNo";
 
 interface Props {
   favouriteKeys: string[];
   data: Record<string, BusArrivalResponse>;
   now: Date;
   onToggle: (stopCode: string, serviceNo: string) => void;
+  onSelectService: (serviceNo: string) => void;
 }
 
-export function PinnedCard({ favouriteKeys, data, now, onToggle }: Props) {
+export function PinnedCard({ favouriteKeys, data, now, onToggle, onSelectService }: Props) {
   if (favouriteKeys.length === 0) return null;
 
   return (
@@ -32,7 +34,7 @@ export function PinnedCard({ favouriteKeys, data, now, onToggle }: Props) {
               >
                 ★
               </button>
-              <span className="service-no">{serviceNo}</span>
+              <ServiceNo serviceNo={serviceNo} onSelectService={onSelectService} />
               <span className="pinned-stop">{stop.name}</span>
             </span>
             <span className="service-badges">

@@ -8,6 +8,7 @@ interface Props {
   now: Date;
   isFavourite: (stopCode: string, serviceNo: string) => boolean;
   onToggleFavourite: (stopCode: string, serviceNo: string) => void;
+  onSelectService: (serviceNo: string) => void;
 }
 
 function byServiceNo(a: string, b: string): number {
@@ -17,7 +18,14 @@ function byServiceNo(a: string, b: string): number {
   return a.localeCompare(b);
 }
 
-export function StopCard({ stop, arrivals, now, isFavourite, onToggleFavourite }: Props) {
+export function StopCard({
+  stop,
+  arrivals,
+  now,
+  isFavourite,
+  onToggleFavourite,
+  onSelectService,
+}: Props) {
   const services = arrivals
     ? [...arrivals.Services].sort((a, b) => byServiceNo(a.ServiceNo, b.ServiceNo))
     : null;
@@ -42,6 +50,7 @@ export function StopCard({ stop, arrivals, now, isFavourite, onToggleFavourite }
             now={now}
             isFavourite={isFavourite(stop.code, service.ServiceNo)}
             onToggleFavourite={() => onToggleFavourite(stop.code, service.ServiceNo)}
+            onSelectService={onSelectService}
           />
         ))}
     </section>

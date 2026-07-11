@@ -28,6 +28,13 @@ export interface Destination {
 
 const BLK_306B = { boardStopCode: "40451", boardStopName: "Tengah Blvd (Blk 306B)" };
 
+/** Destinations reachable by a service, in DESTINATIONS order. */
+export function destinationIdsForService(serviceNo: string): string[] {
+  return DESTINATIONS.filter((d) => d.options.some((o) => o.serviceNo === serviceNo)).map(
+    (d) => d.id,
+  );
+}
+
 export const DESTINATIONS: Destination[] = [
   {
     id: "jurong-east",
