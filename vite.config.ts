@@ -32,6 +32,20 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
+        shortcuts: [
+          {
+            name: "Nearby buses",
+            short_name: "Nearby",
+            url: `${base}?tab=home`,
+            icons: [{ src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+          },
+          {
+            name: "Destinations",
+            short_name: "Destinations",
+            url: `${base}?tab=destinations`,
+            icons: [{ src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+          },
+        ],
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],

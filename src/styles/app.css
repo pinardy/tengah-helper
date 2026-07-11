@@ -57,6 +57,16 @@ body {
   opacity: 0.8;
 }
 
+.rain-pill {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(11, 18, 32, 0.35);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  align-self: center;
+}
+
 .app-main {
   flex: 1;
   overflow: hidden;
