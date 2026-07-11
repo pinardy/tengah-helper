@@ -3,6 +3,7 @@ import { DestinationsScreen } from "./screens/DestinationsScreen";
 import { GoingHomeScreen } from "./screens/GoingHomeScreen";
 import { HomeScreen } from "./screens/HomeScreen";
 import { useRain } from "./hooks/useRain";
+import { useTrainAlerts } from "./hooks/useTrainAlerts";
 
 type Tab = "home" | "return" | "destinations";
 
@@ -15,6 +16,7 @@ function initialTab(): Tab {
 export default function App() {
   const [tab, setTab] = useState<Tab>(initialTab);
   const rain = useRain();
+  const trainAlert = useTrainAlerts();
   // Set when a bus number is tapped on the Nearby screen; the Destinations
   // screen scrolls to and highlights where that service goes.
   const [focusServiceNo, setFocusServiceNo] = useState<string | null>(null);
@@ -43,6 +45,13 @@ export default function App() {
           </span>
         )}
       </header>
+      {trainAlert?.disrupted && (
+        <div className="alert-banner">
+          ⚠️ Train disruption
+          {trainAlert.lines.length > 0 && `: ${trainAlert.lines.join(", ")}`}
+          {trainAlert.message && ` — ${trainAlert.message}`}
+        </div>
+      )}
       <main className="app-main">
         {tab === "home" && <HomeScreen onSelectService={showServiceDestinations} />}
         {tab === "return" && <GoingHomeScreen />}

@@ -4,22 +4,18 @@ interface Env {
   LTA_ACCOUNT_KEY: string;
 }
 
-const LTA_ENDPOINT = "https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival";
-const EDGE_CACHE_SECONDS = 15;
+const LTA_ENDPOINT = "https://datamall2.mytransport.sg/ltaodataservice/TrainServiceAlerts";
+// Disruptions are rare and not second-sensitive; cache generously.
+const EDGE_CACHE_SECONDS = 60;
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const origin = context.request.headers.get("origin");
-  const stop = new URL(context.request.url).searchParams.get("stop") ?? "";
-  if (!/^\d{5}$/.test(stop)) {
-    return withCors(json({ error: "invalid stop code — expected 5 digits" }, 400), origin);
-  }
 
   if (!context.env.LTA_ACCOUNT_KEY) {
     return withCors(json({ error: "LTA_ACCOUNT_KEY secret not configured" }, 500), origin);
   }
 
-  // Normalized cache key so all clients polling the same stop share one entry.
-  const cacheKey = new Request(`https://cache.tengah-helper.internal/bus-arrival/${stop}`);
+  const cacheKey = new Request("https://cache.tengah-helper.internal/train-alerts");
   const cache = caches.default;
   const cached = await cache.match(cacheKey);
   if (cached) {
@@ -28,7 +24,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   let upstream: Response;
   try {
-    upstream = await fetch(`${LTA_ENDPOINT}?BusStopCode=${stop}`, {
+    upstream = await fetch(LTA_ENDPOINT, {
       headers: {
         AccountKey: context.env.LTA_ACCOUNT_KEY,
         accept: "application/json",
