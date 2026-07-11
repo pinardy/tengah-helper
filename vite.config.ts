@@ -40,6 +40,12 @@ export default defineConfig({
             icons: [{ src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }],
           },
           {
+            name: "Going home",
+            short_name: "Going home",
+            url: `${base}?tab=return`,
+            icons: [{ src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+          },
+          {
             name: "Destinations",
             short_name: "Destinations",
             url: `${base}?tab=destinations`,
