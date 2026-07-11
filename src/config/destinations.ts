@@ -148,4 +148,32 @@ export const DESTINATIONS: Destination[] = [
       },
     ],
   },
+  {
+    id: "jurong-point",
+    name: "Jurong Point / Boon Lay",
+    icon: "🛒",
+    options: [
+      {
+        serviceNo: "181",
+        ...BLK_306B,
+        alightStop: "Boon Lay Int",
+        notes: "Jurong Point is directly above the interchange",
+        rank: 1,
+      },
+    ],
+  },
+  {
+    id: "ntfgh",
+    name: "Ng Teng Fong Hospital",
+    icon: "🏥",
+    options: [
+      {
+        serviceNo: "870",
+        ...BLK_306B,
+        alightStop: "Jurong Town Hall Int",
+        notes: "5-min walk via J-Walk to the hospital",
+        rank: 1,
+      },
+    ],
+  },
 ];
