@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DestinationCard } from "../components/DestinationCard";
 import { LastUpdated } from "../components/LastUpdated";
 import { PullToRefresh } from "../components/PullToRefresh";
+import { ServiceDestinationsSheet } from "../components/ServiceDestinationsSheet";
 import { DESTINATIONS } from "../config/destinations";
 import { useBusArrivals } from "../hooks/useBusArrivals";
 import { useNow } from "../hooks/useNow";
@@ -19,16 +20,25 @@ export function DestinationsScreen({ focusServiceNo }: Props) {
   const { data, lastUpdated, isFetching, error, refresh } = useBusArrivals(stopCodes);
   const now = useNow();
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  // Service whose destination list is shown in the bottom sheet.
+  const [sheetServiceNo, setSheetServiceNo] = useState<string | null>(null);
+
+  const scrollToCard = (destinationId: string) => {
+    cardRefs.current[destinationId]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   useEffect(() => {
     if (!focusServiceNo) return;
     const target = DESTINATIONS.find((d) =>
       d.options.some((o) => o.serviceNo === focusServiceNo),
     );
-    if (target) {
-      cardRefs.current[target.id]?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (target) scrollToCard(target.id);
   }, [focusServiceNo]);
+
+  const openDestination = (destinationId: string) => {
+    setSheetServiceNo(null);
+    scrollToCard(destinationId);
+  };
 
   return (
     <PullToRefresh onRefresh={refresh}>
@@ -51,9 +61,17 @@ export function DestinationsScreen({ focusServiceNo }: Props) {
             data={data}
             now={now}
             highlightServiceNo={focusServiceNo}
+            onSelectService={setSheetServiceNo}
           />
         </div>
       ))}
+      {sheetServiceNo && (
+        <ServiceDestinationsSheet
+          serviceNo={sheetServiceNo}
+          onSelectDestination={openDestination}
+          onClose={() => setSheetServiceNo(null)}
+        />
+      )}
     </PullToRefresh>
   );
 }

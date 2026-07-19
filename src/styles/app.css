@@ -330,6 +330,101 @@ body {
   color: var(--text-dim);
 }
 
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 16, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 20;
+  animation: sheet-fade 0.15s ease-out;
+}
+
+.sheet {
+  width: 100%;
+  max-width: 560px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  padding: 0.75rem 0.9rem calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  animation: sheet-rise 0.2s ease-out;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.sheet-header h2 {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.sheet-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.25rem 0.4rem;
+  cursor: pointer;
+}
+
+.sheet-list {
+  list-style: none;
+}
+
+.sheet-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--card-border);
+  color: var(--text);
+  padding: 0.6rem 0.2rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.sheet-list li:first-child .sheet-item {
+  border-top: none;
+}
+
+.sheet-item-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sheet-item-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sheet-item-alight {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+@keyframes sheet-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-rise {
+  from {
+    transform: translateY(100%);
+  }
+}
+
 .tab-bar {
   display: flex;
   border-top: 1px solid var(--card-border);

@@ -2,12 +2,15 @@ import type { BusArrivalResponse, BusService } from "../../shared/lta-types";
 import type { Destination, RouteOption } from "../config/destinations";
 import { minutesUntil } from "../lib/time";
 import { ArrivalBadge } from "./ArrivalBadge";
+import { ServiceNo } from "./ServiceNo";
 
 interface Props {
   destination: Destination;
   data: Record<string, BusArrivalResponse>;
   now: Date;
   highlightServiceNo?: string | null;
+  /** Tapping a service number lists every destination that bus reaches. */
+  onSelectService?: (serviceNo: string) => void;
 }
 
 interface ResolvedOption {
@@ -16,7 +19,13 @@ interface ResolvedOption {
   nextMins: number | null;
 }
 
-export function DestinationCard({ destination, data, now, highlightServiceNo }: Props) {
+export function DestinationCard({
+  destination,
+  data,
+  now,
+  highlightServiceNo,
+  onSelectService,
+}: Props) {
   const resolved: ResolvedOption[] = destination.options.map((option) => {
     const service = data[option.boardStopCode]?.Services.find(
       (s) => s.ServiceNo === option.serviceNo,
@@ -51,7 +60,7 @@ export function DestinationCard({ destination, data, now, highlightServiceNo }: 
           }`}
         >
           <div className="option-main">
-            <span className="service-no">{option.serviceNo}</span>
+            <ServiceNo serviceNo={option.serviceNo} onSelectService={onSelectService} />
             <div className="option-details">
               <span className="option-board">from {option.boardStopName}</span>
               <span className="option-alight">

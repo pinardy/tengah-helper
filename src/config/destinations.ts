@@ -35,6 +35,16 @@ export function destinationIdsForService(serviceNo: string): string[] {
   );
 }
 
+/** Destinations reachable by a service, paired with that service's route option. */
+export function destinationsForService(
+  serviceNo: string,
+): { destination: Destination; option: RouteOption }[] {
+  return DESTINATIONS.flatMap((destination) => {
+    const option = destination.options.find((o) => o.serviceNo === serviceNo);
+    return option ? [{ destination, option }] : [];
+  });
+}
+
 export const DESTINATIONS: Destination[] = [
   {
     id: "jurong-east",
