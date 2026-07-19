@@ -19,6 +19,9 @@ export interface RouteOption {
   alightStop: string;
   /** Approx. minutes spent on the bus; powers the "arrive ~HH:MM" estimate. */
   rideMins: number;
+  /** Service doesn't run on Sat/Sun — shows "not today" instead of "no svc"
+   *  on weekends. (Public holidays aren't detected; they read as weekdays.) */
+  weekdayOnly?: boolean;
   notes?: string;
   /** 1 = usually the best option; used as tiebreaker after soonest arrival */
   rank: number;
@@ -92,6 +95,7 @@ export const DESTINATIONS: Destination[] = [
         ...BLK_306B,
         alightStop: "Bukit Batok MRT",
         rideMins: 20,
+        weekdayOnly: true,
         notes: "Weekdays only",
         rank: 2,
       },
@@ -107,6 +111,7 @@ export const DESTINATIONS: Destination[] = [
         ...BLK_306B,
         alightStop: "Shenton Way / Marina Centre",
         rideMins: 40,
+        weekdayOnly: true,
         notes: "Express, weekdays only",
         rank: 1,
       },
@@ -123,6 +128,7 @@ export const DESTINATIONS: Destination[] = [
         ...BLK_306B,
         alightStop: "Marina Boulevard",
         rideMins: 45,
+        weekdayOnly: true,
         notes: "City Direct — weekday peak only",
         rank: 3,
       },
@@ -169,6 +175,7 @@ export const DESTINATIONS: Destination[] = [
         ...BLK_306B,
         alightStop: "Beauty World MRT",
         rideMins: 30,
+        weekdayOnly: true,
         notes: "Weekdays only",
         rank: 2,
       },

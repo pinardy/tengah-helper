@@ -27,6 +27,12 @@ export function leaveInMins(arrivalMins: number, walkMins: number): number {
   return arrivalMins - walkMins;
 }
 
+/** Saturday or Sunday. (Public holidays aren't detected.) */
+export function isWeekend(now: Date): boolean {
+  const day = now.getDay();
+  return day === 0 || day === 6;
+}
+
 /** "HH:MM" clock time for the given date. */
 export function clockTime(d: Date): string {
   return d.toLocaleTimeString("en-SG", { hour: "2-digit", minute: "2-digit", hour12: false });

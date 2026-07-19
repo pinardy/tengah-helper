@@ -1,6 +1,6 @@
 import type { BusArrivalResponse, BusService } from "../../shared/lta-types";
 import type { Destination, RouteOption } from "../config/destinations";
-import { clockTimeIn, minutesUntil } from "../lib/time";
+import { clockTimeIn, isWeekend, minutesUntil } from "../lib/time";
 import { ArrivalBadge } from "./ArrivalBadge";
 import { ServiceNo } from "./ServiceNo";
 
@@ -83,6 +83,8 @@ export function DestinationCard({
                 <ArrivalBadge bus={service.NextBus} now={now} showMarkers />
                 <ArrivalBadge bus={service.NextBus2} now={now} />
               </>
+            ) : option.weekdayOnly && isWeekend(now) ? (
+              <span className="badge badge-empty">not today</span>
             ) : (
               <span className="badge badge-empty">no svc</span>
             )}
