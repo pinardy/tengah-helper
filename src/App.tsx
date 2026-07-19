@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DestinationsScreen } from "./screens/DestinationsScreen";
 import { GoingHomeScreen } from "./screens/GoingHomeScreen";
 import { HomeScreen } from "./screens/HomeScreen";
+import { useForecast } from "./hooks/useForecast";
 import { useRain } from "./hooks/useRain";
 import { useTrainAlerts } from "./hooks/useTrainAlerts";
 
@@ -16,7 +17,15 @@ function initialTab(): Tab {
 export default function App() {
   const [tab, setTab] = useState<Tab>(initialTab);
   const rain = useRain();
+  const forecast = useForecast();
   const trainAlert = useTrainAlerts();
+
+  // One weather pill: rain now takes priority over a rain-soon forecast.
+  const weather = rain?.raining
+    ? { label: "🌧️ Raining", title: `${rain.mm} mm in the last 5 min at ${rain.station}` }
+    : forecast?.willRain
+      ? { label: "🌦️ Rain likely", title: `${forecast.forecast} near ${forecast.area} (next 2h)` }
+      : null;
   // Set when a bus number is tapped on the Nearby screen; the Destinations
   // screen scrolls to and highlights where that service goes.
   const [focusServiceNo, setFocusServiceNo] = useState<string | null>(null);
@@ -36,12 +45,9 @@ export default function App() {
       <header className="app-header">
         <h1>Tengah Helper</h1>
         <span className="app-sub">Parc Meadow</span>
-        {rain?.raining && (
-          <span
-            className="rain-pill"
-            title={`${rain.mm} mm in the last 5 min at ${rain.station}`}
-          >
-            🌧️ Raining
+        {weather && (
+          <span className="rain-pill" title={weather.title}>
+            {weather.label}
           </span>
         )}
       </header>
