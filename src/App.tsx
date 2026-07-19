@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AroundScreen } from "./screens/AroundScreen";
 import { DestinationsScreen } from "./screens/DestinationsScreen";
 import { GoingHomeScreen } from "./screens/GoingHomeScreen";
 import { HomeScreen } from "./screens/HomeScreen";
@@ -6,12 +7,12 @@ import { useForecast } from "./hooks/useForecast";
 import { useRain } from "./hooks/useRain";
 import { useTrainAlerts } from "./hooks/useTrainAlerts";
 
-type Tab = "home" | "return" | "destinations";
+type Tab = "home" | "return" | "destinations" | "around";
 
 // Manifest shortcuts (long-press app icon) open the app with ?tab=...
 function initialTab(): Tab {
   const tab = new URLSearchParams(window.location.search).get("tab");
-  return tab === "destinations" || tab === "return" ? tab : "home";
+  return tab === "destinations" || tab === "return" || tab === "around" ? tab : "home";
 }
 
 export default function App() {
@@ -62,6 +63,7 @@ export default function App() {
         {tab === "home" && <HomeScreen onSelectService={showServiceDestinations} />}
         {tab === "return" && <GoingHomeScreen />}
         {tab === "destinations" && <DestinationsScreen focusServiceNo={focusServiceNo} />}
+        {tab === "around" && <AroundScreen />}
       </main>
       <nav className="tab-bar">
         <button
@@ -84,6 +86,13 @@ export default function App() {
         >
           <span className="tab-icon">🧭</span>
           Destinations
+        </button>
+        <button
+          className={tab === "around" ? "tab active" : "tab"}
+          onClick={() => switchTab("around")}
+        >
+          <span className="tab-icon">🗺️</span>
+          Around
         </button>
       </nav>
     </div>

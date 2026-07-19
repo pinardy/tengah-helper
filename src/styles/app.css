@@ -456,6 +456,41 @@ body {
   }
 }
 
+.amenity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--card-border);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.amenity-row:first-of-type {
+  border-top: none;
+}
+
+.amenity-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.amenity-name {
+  font-size: 0.9rem;
+}
+
+.amenity-note {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.amenity-go {
+  color: var(--accent-bright);
+  font-size: 1.1rem;
+}
+
 .tab-bar {
   display: flex;
   border-top: 1px solid var(--card-border);
