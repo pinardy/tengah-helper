@@ -18,3 +18,11 @@ export function secondsSince(from: Date | null, now: Date): number {
   if (!from) return Infinity;
   return (now.getTime() - from.getTime()) / 1000;
 }
+
+/**
+ * Minutes until you should leave to catch a bus arriving in `arrivalMins`,
+ * given a `walkMins` walk to the stop. Negative means you can't make it.
+ */
+export function leaveInMins(arrivalMins: number, walkMins: number): number {
+  return arrivalMins - walkMins;
+}

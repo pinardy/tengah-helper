@@ -35,7 +35,7 @@ export function StopCard({
       <header className="card-header">
         <h2>{stop.name}</h2>
         <span className="card-sub">
-          {stop.road} · {stop.code}
+          {stop.road} · {stop.walkMins} min walk · {stop.code}
         </span>
       </header>
       {services === null && <p className="card-note">Loading…</p>}
@@ -48,6 +48,7 @@ export function StopCard({
             key={service.ServiceNo}
             service={service}
             now={now}
+            walkMins={stop.walkMins}
             isFavourite={isFavourite(stop.code, service.ServiceNo)}
             onToggleFavourite={() => onToggleFavourite(stop.code, service.ServiceNo)}
             onSelectService={onSelectService}
