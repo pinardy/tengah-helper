@@ -1,5 +1,6 @@
 import { AMENITIES } from "../config/amenities";
 import { useCarparks } from "../hooks/useCarparks";
+import { useDengue } from "../hooks/useDengue";
 
 function mapsUrl(query: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
@@ -13,12 +14,44 @@ function lotClass(available: number | null, total: number | null): string {
   return "load-sea";
 }
 
+function formatDistance(m: number): string {
+  return m < 1000 ? `${m} m` : `${(m / 1000).toFixed(1)} km`;
+}
+
 export function AroundScreen() {
   const carparks = useCarparks();
+  const dengue = useDengue();
   const hasLiveParking = carparks?.some((c) => c.available !== null);
 
   return (
     <div className="pull-container">
+      <section className="card">
+        <header className="card-header">
+          <h2>🦟 Dengue clusters</h2>
+          <span className="card-sub">within 2 km</span>
+        </header>
+        {dengue === null && <p className="card-note">Loading…</p>}
+        {dengue?.length === 0 && <p className="card-note">None nearby right now 🎉</p>}
+        {dengue?.map((cluster) => (
+          <div className="service-row" key={cluster.locality}>
+            <span className="service-label">
+              <span className="amenity-details">
+                <span className="amenity-name">{cluster.locality}</span>
+                <span className="amenity-note">{formatDistance(cluster.distanceM)} away</span>
+              </span>
+            </span>
+            <span className="service-badges">
+              <span
+                className={`badge ${cluster.cases >= 10 ? "load-lsd" : "load-sda"}`}
+                title={`${cluster.cases} cases`}
+              >
+                {cluster.cases}
+              </span>
+            </span>
+          </div>
+        ))}
+      </section>
+
       <section className="card">
         <header className="card-header">
           <h2>🅿️ Visitor parking</h2>
