@@ -5,6 +5,7 @@ import { GoingHomeScreen } from "./screens/GoingHomeScreen";
 import { HomeScreen } from "./screens/HomeScreen";
 import { useForecast } from "./hooks/useForecast";
 import { useRain } from "./hooks/useRain";
+import { useTrafficIncidents } from "./hooks/useTrafficIncidents";
 import { useTrainAlerts } from "./hooks/useTrainAlerts";
 
 type Tab = "home" | "return" | "destinations" | "around";
@@ -20,6 +21,7 @@ export default function App() {
   const rain = useRain();
   const forecast = useForecast();
   const trainAlert = useTrainAlerts();
+  const incidents = useTrafficIncidents();
 
   // One weather pill: rain now takes priority over a rain-soon forecast.
   const weather = rain?.raining
@@ -57,6 +59,12 @@ export default function App() {
           ⚠️ Train disruption
           {trainAlert.lines.length > 0 && `: ${trainAlert.lines.join(", ")}`}
           {trainAlert.message && ` — ${trainAlert.message}`}
+        </div>
+      )}
+      {incidents && incidents.length > 0 && (
+        <div className="traffic-banner" title={incidents.map((i) => i.message).join("\n")}>
+          🚧 {incidents[0].message}
+          {incidents.length > 1 && ` (+${incidents.length - 1} more)`}
         </div>
       )}
       <main className="app-main">
