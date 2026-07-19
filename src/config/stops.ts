@@ -3,7 +3,8 @@ export interface NearbyStop {
   name: string;
   road: string;
   /** Approx. walking minutes from Parc Meadow to this stop. Used for the
-   *  "leave in N min" hint. Tune to your own block if a stop is nearer. */
+   *  "leave in N min" hint and to pick the default (nearest) home stop.
+   *  Tune these to your own block if a stop is closer/further for you. */
   walkMins: number;
 }
 
@@ -16,3 +17,8 @@ export const NEARBY_STOPS: NearbyStop[] = [
   { code: "40449", name: "Blk 324B", road: "Tengah Dr", walkMins: 5 },
   { code: "40401", name: "Blk 224A", road: "Tengah Blvd", walkMins: 7 },
 ];
+
+/** The nearest stop by walk time — the default "home stop". */
+export const NEAREST_STOP_CODE = [...NEARBY_STOPS].sort(
+  (a, b) => a.walkMins - b.walkMins,
+)[0].code;

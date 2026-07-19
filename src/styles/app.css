@@ -198,6 +198,33 @@ body {
   border-color: rgba(250, 204, 21, 0.35);
 }
 
+.card-home {
+  border-color: rgba(20, 184, 166, 0.4);
+}
+
+.home-pin {
+  margin-right: 0.3rem;
+}
+
+.home-stop-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  padding: 0 0.25rem 0.7rem;
+}
+
+.home-stop-picker select {
+  flex: 1;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+}
+
 .pinned-stop {
   font-size: 0.75rem;
   color: var(--text-dim);

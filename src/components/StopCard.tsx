@@ -6,6 +6,7 @@ interface Props {
   stop: NearbyStop;
   arrivals: BusArrivalResponse | undefined;
   now: Date;
+  isHomeStop?: boolean;
   isFavourite: (stopCode: string, serviceNo: string) => boolean;
   onToggleFavourite: (stopCode: string, serviceNo: string) => void;
   onSelectService: (serviceNo: string) => void;
@@ -22,6 +23,7 @@ export function StopCard({
   stop,
   arrivals,
   now,
+  isHomeStop,
   isFavourite,
   onToggleFavourite,
   onSelectService,
@@ -31,9 +33,12 @@ export function StopCard({
     : null;
 
   return (
-    <section className="card">
+    <section className={`card ${isHomeStop ? "card-home" : ""}`}>
       <header className="card-header">
-        <h2>{stop.name}</h2>
+        <h2>
+          {isHomeStop && <span className="home-pin" title="Your stop">📍</span>}
+          {stop.name}
+        </h2>
         <span className="card-sub">
           {stop.road} · {stop.walkMins} min walk · {stop.code}
         </span>
