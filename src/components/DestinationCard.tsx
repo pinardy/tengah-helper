@@ -1,6 +1,6 @@
 import type { BusArrivalResponse, BusService } from "../../shared/lta-types";
 import type { Destination, RouteOption } from "../config/destinations";
-import { minutesUntil } from "../lib/time";
+import { clockTimeIn, minutesUntil } from "../lib/time";
 import { ArrivalBadge } from "./ArrivalBadge";
 import { ServiceNo } from "./ServiceNo";
 
@@ -67,6 +67,14 @@ export function DestinationCard({
                 alight {option.alightStop}
                 {option.notes ? ` · ${option.notes}` : ""}
               </span>
+              {nextMins !== null && (
+                <span
+                  className="option-eta"
+                  title={`~${option.rideMins} min ride after boarding`}
+                >
+                  arrive ~{clockTimeIn(nextMins + option.rideMins, now)}
+                </span>
+              )}
             </div>
           </div>
           <span className="service-badges">

@@ -388,6 +388,13 @@ body {
   color: var(--text-dim);
 }
 
+.option-eta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-bright);
+  font-variant-numeric: tabular-nums;
+}
+
 .sheet-backdrop {
   position: fixed;
   inset: 0;

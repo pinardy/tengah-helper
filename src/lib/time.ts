@@ -26,3 +26,13 @@ export function secondsSince(from: Date | null, now: Date): number {
 export function leaveInMins(arrivalMins: number, walkMins: number): number {
   return arrivalMins - walkMins;
 }
+
+/** "HH:MM" clock time for the given date. */
+export function clockTime(d: Date): string {
+  return d.toLocaleTimeString("en-SG", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
+/** `mins` minutes after `now`, as "HH:MM". */
+export function clockTimeIn(mins: number, now: Date): string {
+  return clockTime(new Date(now.getTime() + mins * 60_000));
+}
