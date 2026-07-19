@@ -456,6 +456,11 @@ body {
   }
 }
 
+.carpark-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .amenity-row {
   display: flex;
   align-items: center;

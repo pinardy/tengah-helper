@@ -1,12 +1,54 @@
 import { AMENITIES } from "../config/amenities";
+import { useCarparks } from "../hooks/useCarparks";
 
 function mapsUrl(query: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
+function lotClass(available: number | null, total: number | null): string {
+  if (available === null || total === null || total === 0) return "";
+  const ratio = available / total;
+  if (ratio < 0.1) return "load-lsd";
+  if (ratio < 0.25) return "load-sda";
+  return "load-sea";
+}
+
 export function AroundScreen() {
+  const carparks = useCarparks();
+  const hasLiveParking = carparks?.some((c) => c.available !== null);
+
   return (
     <div className="pull-container">
+      <section className="card">
+        <header className="card-header">
+          <h2>🅿️ Visitor parking</h2>
+          <span className="card-sub">HDB lots near home</span>
+        </header>
+        {carparks === null && <p className="card-note">Loading…</p>}
+        {carparks?.map((cp) => (
+          <div className="service-row" key={cp.number}>
+            <span className="service-label">
+              <span className="carpark-name">{cp.name}</span>
+            </span>
+            <span className="service-badges">
+              {cp.available !== null ? (
+                <span className={`badge ${lotClass(cp.available, cp.total)}`}>
+                  {cp.available}
+                </span>
+              ) : (
+                <span className="badge badge-empty">no data</span>
+              )}
+            </span>
+          </div>
+        ))}
+        {carparks !== null && !hasLiveParking && (
+          <p className="card-note">
+            No live data for these carparks — set the right numbers in
+            <code> src/config/carparks.ts</code>.
+          </p>
+        )}
+      </section>
+
       {AMENITIES.map((group) => (
         <section className="card" key={group.category}>
           <header className="card-header">
