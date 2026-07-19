@@ -1,4 +1,5 @@
 import type { BusService } from "../../shared/lta-types";
+import { isLateEvening, lastBusInfo } from "../config/lastBus";
 import { leaveInMins, minutesUntil } from "../lib/time";
 import { ArrivalBadge } from "./ArrivalBadge";
 import { ServiceNo } from "./ServiceNo";
@@ -8,6 +9,8 @@ interface Props {
   now: Date;
   /** Walk minutes to the stop; enables the "leave in N" hint. */
   walkMins?: number;
+  /** Show the outbound last-bus chip (Home screen only — times are outbound). */
+  showLastBus?: boolean;
   isFavourite?: boolean;
   onToggleFavourite?: () => void;
   onSelectService?: (serviceNo: string) => void;
@@ -28,11 +31,14 @@ export function ServiceRow({
   service,
   now,
   walkMins,
+  showLastBus,
   isFavourite,
   onToggleFavourite,
   onSelectService,
 }: Props) {
   const hint = walkMins != null ? leaveHint(service, now, walkMins) : null;
+  const lastBus =
+    showLastBus && isLateEvening(now) ? lastBusInfo(service.ServiceNo, now) : null;
 
   return (
     <div className="service-row">
@@ -48,9 +54,14 @@ export function ServiceRow({
         )}
         <span className="service-id">
           <ServiceNo serviceNo={service.ServiceNo} onSelectService={onSelectService} />
-          {hint && (
+          {(hint || lastBus) && (
             <span className="row-hints">
-              <span className="leave-hint">🚶 {hint}</span>
+              {hint && <span className="leave-hint">🚶 {hint}</span>}
+              {lastBus && (
+                <span className={`last-bus ${lastBus.ended ? "is-gone" : lastBus.soon ? "is-soon" : ""}`}>
+                  🌙 {lastBus.ended ? "last bus gone" : `last ${lastBus.time}`}
+                </span>
+              )}
             </span>
           )}
         </span>

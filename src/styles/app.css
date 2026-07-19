@@ -258,6 +258,18 @@ body {
   color: var(--accent-bright);
 }
 
+.last-bus {
+  color: var(--text-dim);
+}
+
+.last-bus.is-soon {
+  color: var(--sda);
+}
+
+.last-bus.is-gone {
+  color: var(--lsd);
+}
+
 .service-badges {
   display: flex;
   gap: 0.35rem;

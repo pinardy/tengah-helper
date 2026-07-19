@@ -49,6 +49,7 @@ export function StopCard({
             service={service}
             now={now}
             walkMins={stop.walkMins}
+            showLastBus
             isFavourite={isFavourite(stop.code, service.ServiceNo)}
             onToggleFavourite={() => onToggleFavourite(stop.code, service.ServiceNo)}
             onSelectService={onSelectService}
