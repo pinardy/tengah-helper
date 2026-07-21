@@ -42,6 +42,11 @@ export const AMENITIES: AmenityGroup[] = [
     icon: "🩺",
     items: [
       { name: "Nearest GP clinic", query: "GP clinic Tengah" },
+      {
+        name: "Polyclinic — Tengah",
+        query: "Tengah Polyclinic Parc Point",
+        note: "At Parc Point NC; feeders 831G/831W",
+      },
       { name: "Polyclinic — Bukit Batok", query: "Bukit Batok Polyclinic" },
       { name: "24h A&E — Ng Teng Fong Hospital", query: "Ng Teng Fong General Hospital" },
     ],

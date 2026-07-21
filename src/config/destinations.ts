@@ -74,7 +74,7 @@ export const DESTINATIONS: Destination[] = [
       {
         serviceNo: "831W",
         ...TENGAH_INT,
-        alightStop: "Parc Point NC (Tengah loop)",
+        alightStop: "Parc Point NC / Tengah Polyclinic",
         rideMins: 8,
         notes: "Town feeder — anti-clockwise loop, daily",
         rank: 1,
@@ -82,7 +82,7 @@ export const DESTINATIONS: Destination[] = [
       {
         serviceNo: "831G",
         ...TENGAH_INT,
-        alightStop: "Parc Point NC (Tengah loop)",
+        alightStop: "Parc Point NC / Tengah Polyclinic",
         rideMins: 8,
         notes: "Town feeder — clockwise loop, daily",
         rank: 2,
@@ -175,12 +175,20 @@ export const DESTINATIONS: Destination[] = [
     icon: "🏞️",
     options: [
       {
+        serviceNo: "872",
+        ...BLK_306B,
+        alightStop: "Chinese Garden Stn (EW25)",
+        rideMins: 30,
+        notes: "Direct to Chinese Garden MRT — no transfer (LTA guide)",
+        rank: 1,
+      },
+      {
         serviceNo: "181",
         ...BLK_306B,
         alightStop: "Boon Lay Int",
         rideMins: 20,
         notes: "Then EWL 1 stop to Lakeside",
-        rank: 1,
+        rank: 2,
       },
       {
         serviceNo: "870",
@@ -188,7 +196,7 @@ export const DESTINATIONS: Destination[] = [
         alightStop: "Jurong Town Hall Int",
         rideMins: 25,
         notes: "Then EWL from Jurong East, 2 stops to Chinese Garden",
-        rank: 2,
+        rank: 3,
       },
     ],
   },
