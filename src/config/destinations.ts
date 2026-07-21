@@ -11,6 +11,17 @@
 //
 // rideMins are rough off-peak estimates of time on the bus (boarding to
 // alighting) used for the "arrive ~HH:MM" hint — tune them as you ride.
+//
+// 2026 network changes reflected here (LTA, effective 8 Mar 2026):
+//  - 831G/831W: Tengah's first town feeders (Tower Transit), running daily and
+//    looping the estate from Tengah Int to serve the Parc Point neighbourhood
+//    centre. 831W runs the loop anti-clockwise, 831G clockwise.
+//  - 97/97e: extended to ORIGINATE at Tengah Int (41009), giving a direct link
+//    to HarbourFront/CBD. Boarding at the interchange (rather than Blk 306B)
+//    means a much better chance of a seat for the long ride.
+// Intermediate feeder stop codes near Parc Meadow aren't pinned here — the
+// Nearby tab already shows whatever LTA reports live at each stop. Verify
+// board stops / times against businterchange.net and tune if they drift.
 
 export interface RouteOption {
   serviceNo: string;
@@ -35,6 +46,7 @@ export interface Destination {
 }
 
 const BLK_306B = { boardStopCode: "40451", boardStopName: "Tengah Blvd (Blk 306B)" };
+const TENGAH_INT = { boardStopCode: "41009", boardStopName: "Tengah Int" };
 
 /** Destinations reachable by a service, in DESTINATIONS order. */
 export function destinationIdsForService(serviceNo: string): string[] {
@@ -54,6 +66,29 @@ export function destinationsForService(
 }
 
 export const DESTINATIONS: Destination[] = [
+  {
+    id: "parc-point",
+    name: "Parc Point / around Tengah",
+    icon: "🏘️",
+    options: [
+      {
+        serviceNo: "831W",
+        ...TENGAH_INT,
+        alightStop: "Parc Point NC (Tengah loop)",
+        rideMins: 8,
+        notes: "Town feeder — anti-clockwise loop, daily",
+        rank: 1,
+      },
+      {
+        serviceNo: "831G",
+        ...TENGAH_INT,
+        alightStop: "Parc Point NC (Tengah loop)",
+        rideMins: 8,
+        notes: "Town feeder — clockwise loop, daily",
+        rank: 2,
+      },
+    ],
+  },
   {
     id: "jurong-east",
     name: "Jurong East (JEM / Westgate / IMM)",
@@ -112,7 +147,7 @@ export const DESTINATIONS: Destination[] = [
         alightStop: "Shenton Way / Marina Centre",
         rideMins: 40,
         weekdayOnly: true,
-        notes: "Express, weekdays only",
+        notes: "Express — now starts at Tengah Int; weekdays only",
         rank: 1,
       },
       {
@@ -120,7 +155,7 @@ export const DESTINATIONS: Destination[] = [
         ...BLK_306B,
         alightStop: "Shenton Way / Marina Centre",
         rideMins: 55,
-        notes: "Runs daily",
+        notes: "Now starts at Tengah Int — board there for a seat; daily",
         rank: 2,
       },
       {

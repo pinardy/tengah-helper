@@ -18,6 +18,17 @@ export interface AmenityGroup {
 
 export const AMENITIES: AmenityGroup[] = [
   {
+    category: "Neighbourhood centre",
+    icon: "🏘️",
+    items: [
+      {
+        name: "Parc Point @ Tengah",
+        query: "Parc Point Tengah",
+        note: "Tengah's neighbourhood centre — shops & food; feeders 831G/831W stop here",
+      },
+    ],
+  },
+  {
     category: "Supermarket",
     icon: "🛒",
     items: [
