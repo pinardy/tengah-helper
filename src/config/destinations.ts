@@ -137,6 +137,21 @@ export const DESTINATIONS: Destination[] = [
     ],
   },
   {
+    id: "bukit-gombak",
+    name: "Bukit Gombak MRT (NS3)",
+    icon: "🚇",
+    options: [
+      {
+        serviceNo: "871",
+        ...BLK_306B,
+        alightStop: "Bukit Gombak Stn",
+        rideMins: 20,
+        notes: "Loop service, runs daily",
+        rank: 1,
+      },
+    ],
+  },
+  {
     id: "cbd",
     name: "CBD / Raffles Place",
     icon: "🏙️",

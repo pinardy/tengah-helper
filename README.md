@@ -55,6 +55,10 @@ variable if the Cloudflare project uses a different URL.
   directions were verified against businterchange.net (July 2026); stop 40451
   (Tengah Blvd, Blk 306B) is the outbound side for most services. If a route
   gets amended, edit this file.
+- **Around-tab amenities**: `src/config/amenities.ts`
+- **"Getting around Tengah" info** (JRL, car-lite, EV, road updates):
+  `src/config/estateInfo.ts` — static facts from LTA's Parc Meadow travel
+  guide; update the dates as the estate and the Jurong Region Line progress.
 
 ## Notes
 

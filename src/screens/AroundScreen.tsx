@@ -1,4 +1,5 @@
 import { AMENITIES } from "../config/amenities";
+import { ESTATE_INFO } from "../config/estateInfo";
 import { useCarparks } from "../hooks/useCarparks";
 import { useDengue } from "../hooks/useDengue";
 
@@ -80,6 +81,35 @@ export function AroundScreen() {
             <code> src/config/carparks.ts</code>.
           </p>
         )}
+      </section>
+
+      <section className="card">
+        <header className="card-header">
+          <h2>🚉 Getting around Tengah</h2>
+          <span className="card-sub">estate transport at a glance</span>
+        </header>
+        {ESTATE_INFO.map((info) => (
+          <div className="info-block" key={info.title}>
+            <div className="info-title">
+              <span className="dest-icon">{info.icon}</span> {info.title}
+            </div>
+            {info.lines.map((line) => (
+              <p className="card-note" key={line}>
+                {line}
+              </p>
+            ))}
+            {info.link && (
+              <a
+                className="info-link"
+                href={info.link.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {info.link.label} ↗
+              </a>
+            )}
+          </div>
+        ))}
       </section>
 
       {AMENITIES.map((group) => (
