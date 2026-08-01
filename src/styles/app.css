@@ -17,7 +17,15 @@
   border: 0;
 }
 
-:root {
+/*
+ * Theming: base palette is dark. A light palette applies when the system
+ * prefers light AND the user hasn't forced a theme (auto mode = no data-theme
+ * attribute). Setting data-theme="light" | "dark" on <html> overrides the
+ * system — that's what the header toggle does. Attribute selectors outrank the
+ * bare :root / media :root, so a forced choice always wins.
+ */
+:root,
+:root[data-theme="dark"] {
   --bg: #0b1220;
   --card: #131c2e;
   --card-border: #1e2a42;
@@ -32,7 +40,7 @@
 
 /* Light theme for outdoor / bright-sunlight readability. */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme]) {
     --bg: #eef2f8;
     --card: #ffffff;
     --card-border: #d5dced;
@@ -44,6 +52,19 @@
     --sda: #b45309;
     --lsd: #b91c1c;
   }
+}
+
+:root[data-theme="light"] {
+  --bg: #eef2f8;
+  --card: #ffffff;
+  --card-border: #d5dced;
+  --text: #0f1a2b;
+  --text-dim: #566072;
+  --accent: #0f766e;
+  --accent-bright: #0d9488;
+  --sea: #15803d;
+  --sda: #b45309;
+  --lsd: #b91c1c;
 }
 
 /* Respect users who prefer reduced motion. */
@@ -105,14 +126,36 @@ body {
   opacity: 0.8;
 }
 
-.rain-pill {
+.header-actions {
   margin-left: auto;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rain-pill {
   font-size: 0.75rem;
   font-weight: 600;
   background: rgba(11, 18, 32, 0.35);
   border-radius: 999px;
   padding: 0.2rem 0.6rem;
-  align-self: center;
+}
+
+.theme-toggle {
+  background: rgba(11, 18, 32, 0.35);
+  border: none;
+  color: #f8fafc;
+  border-radius: 999px;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .alert-banner {

@@ -10,6 +10,15 @@
     <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="%BASE_URL%icons/icon-192.png" />
     <title>Tengah Helper</title>
+    <script>
+      // Apply a forced theme before first paint to avoid a flash. "auto" (or
+      // no value) leaves it to the CSS prefers-color-scheme fallback.
+      try {
+        var t = localStorage.getItem("tengah-helper:theme");
+        if (t === "light" || t === "dark")
+          document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

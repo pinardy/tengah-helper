@@ -5,8 +5,11 @@ import { GoingHomeScreen } from "./screens/GoingHomeScreen";
 import { HomeScreen } from "./screens/HomeScreen";
 import { useForecast } from "./hooks/useForecast";
 import { useRain } from "./hooks/useRain";
+import { useTheme } from "./hooks/useTheme";
 import { useTrafficIncidents } from "./hooks/useTrafficIncidents";
 import { useTrainAlerts } from "./hooks/useTrainAlerts";
+
+const THEME_ICON: Record<string, string> = { auto: "🌗", light: "☀️", dark: "🌙" };
 
 type Tab = "home" | "return" | "destinations" | "around";
 
@@ -22,6 +25,7 @@ export default function App() {
   const forecast = useForecast();
   const trainAlert = useTrainAlerts();
   const incidents = useTrafficIncidents();
+  const { mode: themeMode, cycle: cycleTheme } = useTheme();
 
   // One weather pill: rain now takes priority over a rain-soon forecast.
   const weather = rain?.raining
@@ -48,11 +52,21 @@ export default function App() {
       <header className="app-header">
         <h1>Tengah Helper</h1>
         <span className="app-sub">Parc Meadow</span>
-        {weather && (
-          <span className="rain-pill" title={weather.title}>
-            {weather.label}
-          </span>
-        )}
+        <div className="header-actions">
+          {weather && (
+            <span className="rain-pill" title={weather.title}>
+              {weather.label}
+            </span>
+          )}
+          <button
+            className="theme-toggle"
+            onClick={cycleTheme}
+            aria-label={`Theme: ${themeMode}. Tap to switch.`}
+            title={`Theme: ${themeMode}`}
+          >
+            <span aria-hidden="true">{THEME_ICON[themeMode]}</span>
+          </button>
+        </div>
       </header>
       {trainAlert?.disrupted && (
         <div className="alert-banner" role="alert">
