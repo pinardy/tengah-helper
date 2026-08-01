@@ -33,7 +33,11 @@ export function GoingHomeScreen() {
                 {stop.name} · {stop.code}
               </span>
             </header>
-            {services === null && <p className="card-note">Loading…</p>}
+            {services === null && (
+              <p className="card-note">
+                {error ? "Can't reach live timings — check your connection" : "Loading…"}
+              </p>
+            )}
             {services !== null && services.length === 0 && (
               <p className="card-note">No Tengah-bound buses in service</p>
             )}

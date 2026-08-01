@@ -7,6 +7,8 @@ interface Props {
   arrivals: BusArrivalResponse | undefined;
   now: Date;
   isHomeStop?: boolean;
+  /** A live fetch failed and this stop has no data to show. */
+  connectionError?: boolean;
   isFavourite: (stopCode: string, serviceNo: string) => boolean;
   onToggleFavourite: (stopCode: string, serviceNo: string) => void;
   onSelectService: (serviceNo: string) => void;
@@ -24,6 +26,7 @@ export function StopCard({
   arrivals,
   now,
   isHomeStop,
+  connectionError,
   isFavourite,
   onToggleFavourite,
   onSelectService,
@@ -43,7 +46,11 @@ export function StopCard({
           {stop.road} · {stop.walkMins} min walk · {stop.code}
         </span>
       </header>
-      {services === null && <p className="card-note">Loading…</p>}
+      {services === null && (
+        <p className="card-note">
+          {connectionError ? "Can't reach live timings — check your connection" : "Loading…"}
+        </p>
+      )}
       {services !== null && services.length === 0 && (
         <p className="card-note">No buses in service</p>
       )}

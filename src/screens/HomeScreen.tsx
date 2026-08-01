@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { LastUpdated } from "../components/LastUpdated";
+import { Legend } from "../components/Legend";
 import { PinnedCard } from "../components/PinnedCard";
 import { PullToRefresh } from "../components/PullToRefresh";
 import { StopCard } from "../components/StopCard";
@@ -48,6 +49,7 @@ export function HomeScreen({ onSelectService }: Props) {
           ))}
         </select>
       </label>
+      <Legend />
       <PinnedCard
         favouriteKeys={keys}
         data={data}
@@ -62,6 +64,7 @@ export function HomeScreen({ onSelectService }: Props) {
           arrivals={data[stop.code]}
           now={now}
           isHomeStop={stop.code === homeStop}
+          connectionError={!!error}
           isFavourite={isFavourite}
           onToggleFavourite={toggle}
           onSelectService={onSelectService}

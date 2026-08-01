@@ -14,7 +14,9 @@ export function LastUpdated({ lastUpdated, now, isFetching, error, onRefresh }: 
     <div className={`last-updated ${error ? "has-error" : stale ? "is-stale" : ""}`}>
       <span>
         {error
-          ? `Offline? Showing last data (${formatRelative(lastUpdated, now)})`
+          ? lastUpdated
+            ? `Offline? Showing last data (${formatRelative(lastUpdated, now)})`
+            : "Can't reach live timings — check your connection"
           : `Updated ${formatRelative(lastUpdated, now)}`}
         {stale && !error && " — may be stale"}
       </span>

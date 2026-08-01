@@ -11,6 +11,7 @@ interface Props {
 export function PullToRefresh({ onRefresh, children }: Props) {
   const startY = useRef<number | null>(null);
   const [pull, setPull] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     if (e.currentTarget.scrollTop === 0) {
@@ -25,7 +26,10 @@ export function PullToRefresh({ onRefresh, children }: Props) {
   };
 
   const onTouchEnd = () => {
-    if (pull >= TRIGGER_PX) void onRefresh();
+    if (pull >= TRIGGER_PX && !refreshing) {
+      setRefreshing(true);
+      Promise.resolve(onRefresh()).finally(() => setRefreshing(false));
+    }
     startY.current = null;
     setPull(0);
   };
@@ -37,9 +41,21 @@ export function PullToRefresh({ onRefresh, children }: Props) {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {pull > 0 && (
-        <div className="pull-indicator" style={{ height: pull }}>
-          {pull >= TRIGGER_PX ? "Release to refresh" : "Pull to refresh"}
+      {(pull > 0 || refreshing) && (
+        <div
+          className="pull-indicator"
+          style={{ height: refreshing ? TRIGGER_PX : pull }}
+          role="status"
+        >
+          {refreshing ? (
+            <>
+              <span className="spinner" aria-hidden="true" /> Refreshing…
+            </>
+          ) : pull >= TRIGGER_PX ? (
+            "Release to refresh"
+          ) : (
+            "Pull to refresh"
+          )}
         </div>
       )}
       {children}

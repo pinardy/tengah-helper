@@ -17,6 +17,40 @@
   --lsd: #dc2626;
 }
 
+/* Light theme for outdoor / bright-sunlight readability. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #eef2f8;
+    --card: #ffffff;
+    --card-border: #d5dced;
+    --text: #0f1a2b;
+    --text-dim: #566072;
+    --accent: #0f766e;
+    --accent-bright: #0d9488;
+    --sea: #15803d;
+    --sda: #b45309;
+    --lsd: #b91c1c;
+  }
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Visible keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
 html,
 body,
 #root {
@@ -45,6 +79,7 @@ body {
   gap: 0.5rem;
   padding: calc(env(safe-area-inset-top, 0px) + 0.75rem) 1rem 0.75rem;
   background: var(--accent);
+  color: #f8fafc;
 }
 
 .app-header h1 {
@@ -128,10 +163,14 @@ body {
   border: 1px solid var(--card-border);
   color: var(--text);
   border-radius: 999px;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   font-size: 1rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .refresh-btn:disabled {
@@ -192,10 +231,15 @@ body {
   background: none;
   border: none;
   color: var(--text-dim);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1;
-  padding: 0.2rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  min-height: 2.4rem;
+  flex-shrink: 0;
 }
 
 .fav-btn.is-fav {
@@ -349,6 +393,13 @@ body {
   font-size: 0.7rem;
 }
 
+/* Non-colour crowding cue inside a badge (• standing, •• crowded). */
+.load-dot {
+  font-size: 0.6rem;
+  letter-spacing: -0.08em;
+  margin-left: 0.12rem;
+}
+
 .dest-icon {
   margin-right: 0.15rem;
 }
@@ -441,10 +492,14 @@ body {
   background: none;
   border: none;
   color: var(--text-dim);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1;
-  padding: 0.25rem 0.4rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
 }
 
 .sheet-list {
@@ -586,6 +641,59 @@ body {
   color: var(--accent-bright);
 }
 
+.tab:focus-visible {
+  outline-offset: -3px;
+}
+
 .tab-icon {
   font-size: 1.25rem;
+}
+
+/* Legend (Nearby screen) */
+.legend {
+  margin: 0 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.legend > summary {
+  cursor: pointer;
+  padding: 0.35rem 0;
+  color: var(--accent-bright);
+}
+
+.legend-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.4rem 0 0.2rem;
+}
+
+.legend-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-list .badge {
+  flex-shrink: 0;
+}
+
+/* Pull-to-refresh spinner */
+.spinner {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid var(--text-dim);
+  border-top-color: transparent;
+  border-radius: 50%;
+  vertical-align: -0.1rem;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
