@@ -1,4 +1,5 @@
 import { useRef, useState, type ReactNode, type TouchEvent } from "react";
+import { haptic } from "../lib/haptics";
 
 const TRIGGER_PX = 70;
 
@@ -27,6 +28,7 @@ export function PullToRefresh({ onRefresh, children }: Props) {
 
   const onTouchEnd = () => {
     if (pull >= TRIGGER_PX && !refreshing) {
+      haptic();
       setRefreshing(true);
       Promise.resolve(onRefresh()).finally(() => setRefreshing(false));
     }

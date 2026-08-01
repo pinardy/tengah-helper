@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { haptic } from "../lib/haptics";
 
 const STORAGE_KEY = "tengah-helper:favourites";
 
@@ -21,6 +22,7 @@ export function useFavourites() {
   const [keys, setKeys] = useState<string[]>(load);
 
   const toggle = useCallback((stopCode: string, serviceNo: string) => {
+    haptic();
     setKeys((prev) => {
       const key = favouriteKey(stopCode, serviceNo);
       const next = prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key];

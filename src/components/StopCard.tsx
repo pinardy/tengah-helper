@@ -21,6 +21,12 @@ function byServiceNo(a: string, b: string): number {
   return a.localeCompare(b);
 }
 
+/** Google Maps walking directions from the user's location to this stop. */
+function stopDirectionsUrl(stop: NearbyStop): string {
+  const q = encodeURIComponent(`${stop.name}, ${stop.road}, Singapore`);
+  return `https://www.google.com/maps/dir/?api=1&destination=${q}&travelmode=walking`;
+}
+
 export function StopCard({
   stop,
   arrivals,
@@ -45,6 +51,16 @@ export function StopCard({
         <span className="card-sub">
           {stop.road} · {stop.walkMins} min walk · {stop.code}
         </span>
+        <a
+          className="stop-map-link"
+          href={stopDirectionsUrl(stop)}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Walking directions to ${stop.name}`}
+          title="Walking directions"
+        >
+          🗺️
+        </a>
       </header>
       {services === null && (
         <p className="card-note">

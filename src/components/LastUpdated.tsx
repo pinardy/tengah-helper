@@ -1,3 +1,4 @@
+import { haptic } from "../lib/haptics";
 import { formatRelative, secondsSince } from "../lib/time";
 
 interface Props {
@@ -20,9 +21,25 @@ export function LastUpdated({ lastUpdated, now, isFetching, error, onRefresh }: 
           : `Updated ${formatRelative(lastUpdated, now)}`}
         {stale && !error && " — may be stale"}
       </span>
-      <button className="refresh-btn" onClick={onRefresh} disabled={isFetching}>
+      <button
+        className="refresh-btn"
+        onClick={() => {
+          haptic();
+          onRefresh();
+        }}
+        disabled={isFetching}
+        aria-label="Refresh timings"
+      >
         {isFetching ? "…" : "↻"}
       </button>
+      {/* Announce only connectivity changes — not the per-second timestamp. */}
+      <span className="sr-only" role="status" aria-live="assertive">
+        {error
+          ? lastUpdated
+            ? "Live timings unavailable — showing last data"
+            : "Can't reach live timings"
+          : ""}
+      </span>
     </div>
   );
 }

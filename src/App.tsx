@@ -55,14 +55,18 @@ export default function App() {
         )}
       </header>
       {trainAlert?.disrupted && (
-        <div className="alert-banner">
+        <div className="alert-banner" role="alert">
           ⚠️ Train disruption
           {trainAlert.lines.length > 0 && `: ${trainAlert.lines.join(", ")}`}
           {trainAlert.message && ` — ${trainAlert.message}`}
         </div>
       )}
       {incidents && incidents.length > 0 && (
-        <div className="traffic-banner" title={incidents.map((i) => i.message).join("\n")}>
+        <div
+          className="traffic-banner"
+          role="status"
+          title={incidents.map((i) => i.message).join("\n")}
+        >
           🚧 {incidents[0].message}
           {incidents.length > 1 && ` (+${incidents.length - 1} more)`}
         </div>
@@ -73,33 +77,45 @@ export default function App() {
         {tab === "destinations" && <DestinationsScreen focusServiceNo={focusServiceNo} />}
         {tab === "around" && <AroundScreen />}
       </main>
-      <nav className="tab-bar">
+      <nav className="tab-bar" aria-label="Main">
         <button
           className={tab === "home" ? "tab active" : "tab"}
+          aria-current={tab === "home" ? "page" : undefined}
           onClick={() => switchTab("home")}
         >
-          <span className="tab-icon">🚌</span>
+          <span className="tab-icon" aria-hidden="true">
+            🚌
+          </span>
           Nearby
         </button>
         <button
           className={tab === "return" ? "tab active" : "tab"}
+          aria-current={tab === "return" ? "page" : undefined}
           onClick={() => switchTab("return")}
         >
-          <span className="tab-icon">🏠</span>
+          <span className="tab-icon" aria-hidden="true">
+            🏠
+          </span>
           Going Home
         </button>
         <button
           className={tab === "destinations" ? "tab active" : "tab"}
+          aria-current={tab === "destinations" ? "page" : undefined}
           onClick={() => switchTab("destinations")}
         >
-          <span className="tab-icon">🧭</span>
+          <span className="tab-icon" aria-hidden="true">
+            🧭
+          </span>
           Destinations
         </button>
         <button
           className={tab === "around" ? "tab active" : "tab"}
+          aria-current={tab === "around" ? "page" : undefined}
           onClick={() => switchTab("around")}
         >
-          <span className="tab-icon">🗺️</span>
+          <span className="tab-icon" aria-hidden="true">
+            🗺️
+          </span>
           Around
         </button>
       </nav>

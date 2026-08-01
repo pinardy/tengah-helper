@@ -4,6 +4,19 @@
   box-sizing: border-box;
 }
 
+/* Visually hidden, but available to screen readers (live regions, labels). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :root {
   --bg: #0b1220;
   --card: #131c2e;
@@ -200,6 +213,20 @@ body {
 .card-sub {
   font-size: 0.75rem;
   color: var(--text-dim);
+}
+
+.stop-map-link {
+  margin-left: auto;
+  align-self: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  min-height: 2.4rem;
+  flex-shrink: 0;
 }
 
 .card-note {
