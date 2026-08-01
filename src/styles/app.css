@@ -285,6 +285,13 @@ body {
   margin-right: 0.3rem;
 }
 
+.pin-hint {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 0.2rem 0.5rem 0.7rem;
+}
+
 .home-stop-picker {
   display: flex;
   align-items: center;
@@ -479,6 +486,11 @@ body {
   font-weight: 600;
   color: var(--accent-bright);
   font-variant-numeric: tabular-nums;
+}
+
+.option-leave {
+  color: var(--text-dim);
+  font-weight: 600;
 }
 
 .sheet-backdrop {

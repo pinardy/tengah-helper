@@ -1,8 +1,21 @@
 import type { BusArrivalResponse, BusService } from "../../shared/lta-types";
 import type { Destination, RouteOption } from "../config/destinations";
-import { clockTimeIn, isWeekend, minutesUntil } from "../lib/time";
+import { isServiceHoliday } from "../config/holidays";
+import { NEARBY_STOPS } from "../config/stops";
+import { clockTimeIn, leaveInMins, minutesUntil } from "../lib/time";
 import { ArrivalBadge } from "./ArrivalBadge";
 import { ServiceNo } from "./ServiceNo";
+
+/** "leave in N" to catch a bus arriving in `nextMins`, if the board stop is a
+ *  known nearby stop with a walk time. Null when not applicable. */
+function leaveHint(boardStopCode: string, nextMins: number | null): string | null {
+  if (nextMins === null) return null;
+  const walkMins = NEARBY_STOPS.find((s) => s.code === boardStopCode)?.walkMins;
+  if (walkMins == null) return null;
+  const leave = leaveInMins(nextMins, walkMins);
+  if (leave < 0) return null;
+  return leave === 0 ? "leave now" : `leave in ${leave}m`;
+}
 
 interface Props {
   destination: Destination;
@@ -17,6 +30,7 @@ interface ResolvedOption {
   option: RouteOption;
   service: BusService | undefined;
   nextMins: number | null;
+  leave: string | null;
 }
 
 export function DestinationCard({
@@ -30,10 +44,12 @@ export function DestinationCard({
     const service = data[option.boardStopCode]?.Services.find(
       (s) => s.ServiceNo === option.serviceNo,
     );
+    const nextMins = service ? minutesUntil(service.NextBus.EstimatedArrival, now) : null;
     return {
       option,
       service,
-      nextMins: service ? minutesUntil(service.NextBus.EstimatedArrival, now) : null,
+      nextMins,
+      leave: leaveHint(option.boardStopCode, nextMins),
     };
   });
 
@@ -52,7 +68,7 @@ export function DestinationCard({
           <span className="dest-icon">{destination.icon}</span> {destination.name}
         </h2>
       </header>
-      {resolved.map(({ option, service, nextMins }, i) => (
+      {resolved.map(({ option, service, nextMins, leave }, i) => (
         <div
           key={`${option.serviceNo}-${option.boardStopCode}`}
           className={`option-row ${i === 0 && nextMins !== null ? "option-best" : ""} ${
@@ -73,6 +89,7 @@ export function DestinationCard({
                   title={`~${option.rideMins} min ride after boarding`}
                 >
                   arrive ~{clockTimeIn(nextMins + option.rideMins, now)}
+                  {leave && <span className="option-leave">{` · 🚶 ${leave}`}</span>}
                 </span>
               )}
             </div>
@@ -83,7 +100,7 @@ export function DestinationCard({
                 <ArrivalBadge bus={service.NextBus} now={now} showMarkers />
                 <ArrivalBadge bus={service.NextBus2} now={now} />
               </>
-            ) : option.weekdayOnly && isWeekend(now) ? (
+            ) : option.weekdayOnly && isServiceHoliday(now) ? (
               <span className="badge badge-empty">not today</span>
             ) : (
               <span className="badge badge-empty">no svc</span>

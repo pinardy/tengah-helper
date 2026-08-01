@@ -7,7 +7,8 @@
 // here — this file is the single source of truth for recommendations.
 //
 // Weekday-only services (452/453/674/97e/871A) simply show no arrivals on
-// weekends; their notes call this out so an empty row isn't confusing.
+// weekends and public holidays; their notes call this out so an empty row
+// isn't confusing.
 //
 // rideMins are rough off-peak estimates of time on the bus (boarding to
 // alighting) used for the "arrive ~HH:MM" hint — tune them as you ride.

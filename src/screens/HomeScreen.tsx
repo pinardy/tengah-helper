@@ -50,6 +50,9 @@ export function HomeScreen({ onSelectService }: Props) {
         </select>
       </label>
       <Legend />
+      {keys.length === 0 && (
+        <p className="pin-hint">Tip: tap ☆ next to a bus to pin it to the top.</p>
+      )}
       <PinnedCard
         favouriteKeys={keys}
         data={data}

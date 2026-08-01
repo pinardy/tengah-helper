@@ -66,7 +66,8 @@ variable if the Cloudflare project uses a different URL.
   than none); the Pages Function has a 15s edge cache to stay well within LTA
   rate limits.
 - Weekday-only services (97e, 452, 453, 674, 871A) show no arrivals on
-  weekends — that's the schedule, not a bug.
+  weekends and public holidays — that's the schedule, not a bug. Singapore
+  public holidays are listed in `src/config/holidays.ts` (update yearly).
 - 2026 network changes (LTA, from 8 Mar 2026): Tengah's first town feeders
   **831G/831W** loop the estate from Tengah Int to serve the Parc Point
   neighbourhood centre (they appear live on the Nearby tab and under the

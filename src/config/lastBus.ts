@@ -6,6 +6,8 @@
 // are the last departure clock time (24h "HH:MM") by day type. Omit a service to
 // show no indicator for it.
 
+import { isPublicHoliday } from "./holidays";
+
 interface LastBusTimes {
   weekday: string;
   sat: string;
@@ -39,7 +41,9 @@ export function lastBusInfo(serviceNo: string, now: Date): LastBusInfo | null {
   const entry = LAST_BUS[serviceNo];
   if (!entry) return null;
   const day = now.getDay(); // 0 = Sun, 6 = Sat
-  const time = day === 0 ? entry.sun : day === 6 ? entry.sat : entry.weekday;
+  // Public holidays follow the Sunday timetable.
+  const time =
+    isPublicHoliday(now) || day === 0 ? entry.sun : day === 6 ? entry.sat : entry.weekday;
   if (!time) return null;
 
   const [h, m] = time.split(":").map(Number);
