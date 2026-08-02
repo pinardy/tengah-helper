@@ -324,6 +324,16 @@ body {
   border-color: rgba(20, 184, 166, 0.4);
 }
 
+.card-best-home {
+  border-color: rgba(20, 184, 166, 0.5);
+  background: rgba(20, 184, 166, 0.08);
+}
+
+.best-home-line {
+  font-size: 0.9rem;
+  padding: 0.15rem 0 0.1rem;
+}
+
 .home-pin {
   margin-right: 0.3rem;
 }

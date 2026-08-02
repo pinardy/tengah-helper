@@ -51,6 +51,12 @@ export default defineConfig({
             url: `${base}?tab=destinations`,
             icons: [{ src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }],
           },
+          {
+            name: "Around Tengah",
+            short_name: "Around",
+            url: `${base}?tab=around`,
+            icons: [{ src: "icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+          },
         ],
       },
       workbox: {
