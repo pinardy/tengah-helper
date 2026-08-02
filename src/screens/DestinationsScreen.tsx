@@ -10,9 +10,11 @@ import { useNow } from "../hooks/useNow";
 interface Props {
   /** Service tapped on the Nearby screen; scroll to and highlight its destination. */
   focusServiceNo: string | null;
+  /** Rain now / rain likely — leave hints show ☔ instead of 🚶. */
+  umbrella?: boolean;
 }
 
-export function DestinationsScreen({ focusServiceNo }: Props) {
+export function DestinationsScreen({ focusServiceNo, umbrella }: Props) {
   const stopCodes = useMemo(
     () => [...new Set(DESTINATIONS.flatMap((d) => d.options.map((o) => o.boardStopCode)))],
     [],
@@ -61,6 +63,7 @@ export function DestinationsScreen({ focusServiceNo }: Props) {
             data={data}
             now={now}
             highlightServiceNo={focusServiceNo}
+            umbrella={umbrella}
             onSelectService={setSheetServiceNo}
           />
         </div>
@@ -68,6 +71,8 @@ export function DestinationsScreen({ focusServiceNo }: Props) {
       {sheetServiceNo && (
         <ServiceDestinationsSheet
           serviceNo={sheetServiceNo}
+          data={data}
+          now={now}
           onSelectDestination={openDestination}
           onClose={() => setSheetServiceNo(null)}
         />

@@ -412,6 +412,13 @@ body {
   min-width: 0;
 }
 
+.service-id-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
 .row-hints {
   display: flex;
   flex-wrap: wrap;
@@ -425,6 +432,10 @@ body {
 }
 
 .last-bus {
+  color: var(--text-dim);
+}
+
+.extra-hint {
   color: var(--text-dim);
 }
 
@@ -474,6 +485,12 @@ body {
   color: var(--text-dim);
   font-weight: 500;
   font-size: 0.75rem;
+}
+
+/* Arrives sooner than you can walk to the stop — visibly not-for-you. */
+.badge-missed {
+  opacity: 0.35;
+  text-decoration: line-through;
 }
 
 .marker {
@@ -631,6 +648,11 @@ body {
 .sheet-item-alight {
   font-size: 0.75rem;
   color: var(--text-dim);
+}
+
+.sheet-item-badge {
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 @keyframes sheet-fade {

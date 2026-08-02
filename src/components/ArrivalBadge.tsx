@@ -13,9 +13,11 @@ interface Props {
   bus: NextBus | undefined;
   now: Date;
   showMarkers?: boolean;
+  /** Arrives sooner than you can walk to the stop — shown dimmed. */
+  unreachable?: boolean;
 }
 
-export function ArrivalBadge({ bus, now, showMarkers = false }: Props) {
+export function ArrivalBadge({ bus, now, showMarkers = false, unreachable = false }: Props) {
   const mins = bus ? minutesUntil(bus.EstimatedArrival, now) : null;
   if (mins === null) {
     return (
@@ -33,12 +35,17 @@ export function ArrivalBadge({ bus, now, showMarkers = false }: Props) {
     meta.label,
     isDD ? "double deck" : "",
     isWab ? "wheelchair accessible" : "",
+    unreachable ? "too soon to walk to" : "",
   ]
     .filter(Boolean)
     .join(", ");
 
   return (
-    <span className={`badge ${meta.cls}`} aria-label={label} title={label}>
+    <span
+      className={`badge ${meta.cls}${unreachable ? " badge-missed" : ""}`}
+      aria-label={label}
+      title={label}
+    >
       <span aria-hidden="true">{mins === 0 ? "Arr" : mins}</span>
       {meta.dots && (
         <span className="load-dot" aria-hidden="true">

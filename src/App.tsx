@@ -86,9 +86,13 @@ export default function App() {
         </div>
       )}
       <main className="app-main">
-        {tab === "home" && <HomeScreen onSelectService={showServiceDestinations} />}
+        {tab === "home" && (
+          <HomeScreen onSelectService={showServiceDestinations} umbrella={!!weather} />
+        )}
         {tab === "return" && <GoingHomeScreen />}
-        {tab === "destinations" && <DestinationsScreen focusServiceNo={focusServiceNo} />}
+        {tab === "destinations" && (
+          <DestinationsScreen focusServiceNo={focusServiceNo} umbrella={!!weather} />
+        )}
         {tab === "around" && <AroundScreen />}
       </main>
       <nav className="tab-bar" aria-label="Main">

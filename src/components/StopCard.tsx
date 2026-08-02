@@ -9,6 +9,8 @@ interface Props {
   isHomeStop?: boolean;
   /** A live fetch failed and this stop has no data to show. */
   connectionError?: boolean;
+  /** Rain now / rain likely — leave hints show ☔ instead of 🚶. */
+  umbrella?: boolean;
   isFavourite: (stopCode: string, serviceNo: string) => boolean;
   onToggleFavourite: (stopCode: string, serviceNo: string) => void;
   onSelectService: (serviceNo: string) => void;
@@ -33,6 +35,7 @@ export function StopCard({
   now,
   isHomeStop,
   connectionError,
+  umbrella,
   isFavourite,
   onToggleFavourite,
   onSelectService,
@@ -78,6 +81,7 @@ export function StopCard({
             now={now}
             walkMins={stop.walkMins}
             showLastBus
+            umbrella={umbrella}
             isFavourite={isFavourite(stop.code, service.ServiceNo)}
             onToggleFavourite={() => onToggleFavourite(stop.code, service.ServiceNo)}
             onSelectService={onSelectService}

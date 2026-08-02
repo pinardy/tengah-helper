@@ -8,7 +8,7 @@
 
 import { isPublicHoliday } from "./holidays";
 
-interface LastBusTimes {
+export interface LastBusTimes {
   weekday: string;
   sat: string;
   sun: string;
@@ -32,14 +32,15 @@ export interface LastBusInfo {
   soon: boolean;
 }
 
-/** Late-evening window where showing last-bus info is useful (from 21:00). */
+/** Late-evening window where showing last-bus info is useful (21:00 until the
+ *  small hours, since some return services run past midnight). */
 export function isLateEvening(now: Date): boolean {
-  return now.getHours() >= 21;
+  const h = now.getHours();
+  return h >= 21 || h < 3;
 }
 
-export function lastBusInfo(serviceNo: string, now: Date): LastBusInfo | null {
-  const entry = LAST_BUS[serviceNo];
-  if (!entry) return null;
+/** Resolve today's last-bus info from a set of day-type times. */
+export function lastBusInfoFrom(entry: LastBusTimes, now: Date): LastBusInfo | null {
   const day = now.getDay(); // 0 = Sun, 6 = Sat
   // Public holidays follow the Sunday timetable.
   const time =
@@ -49,6 +50,14 @@ export function lastBusInfo(serviceNo: string, now: Date): LastBusInfo | null {
   const [h, m] = time.split(":").map(Number);
   const last = new Date(now);
   last.setHours(h, m, 0, 0);
+  // A past-midnight time like "00:48" belongs to tonight: bump it to tomorrow
+  // unless we're already in the small hours ourselves.
+  if (h < 4 && now.getHours() >= 4) last.setDate(last.getDate() + 1);
   const minsUntil = (last.getTime() - now.getTime()) / 60_000;
   return { time, ended: minsUntil < 0, soon: minsUntil < 45 };
+}
+
+export function lastBusInfo(serviceNo: string, now: Date): LastBusInfo | null {
+  const entry = LAST_BUS[serviceNo];
+  return entry ? lastBusInfoFrom(entry, now) : null;
 }

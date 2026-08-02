@@ -12,9 +12,11 @@ import { useNow } from "../hooks/useNow";
 
 interface Props {
   onSelectService: (serviceNo: string) => void;
+  /** Rain now / rain likely — leave hints show ☔ instead of 🚶. */
+  umbrella?: boolean;
 }
 
-export function HomeScreen({ onSelectService }: Props) {
+export function HomeScreen({ onSelectService, umbrella }: Props) {
   const stopCodes = useMemo(() => NEARBY_STOPS.map((s) => s.code), []);
   const { data, lastUpdated, isFetching, error, refresh } = useBusArrivals(stopCodes);
   const { keys, toggle, isFavourite } = useFavourites();
@@ -57,6 +59,7 @@ export function HomeScreen({ onSelectService }: Props) {
         favouriteKeys={keys}
         data={data}
         now={now}
+        umbrella={umbrella}
         onToggle={toggle}
         onSelectService={onSelectService}
       />
@@ -68,6 +71,7 @@ export function HomeScreen({ onSelectService }: Props) {
           now={now}
           isHomeStop={stop.code === homeStop}
           connectionError={!!error}
+          umbrella={umbrella}
           isFavourite={isFavourite}
           onToggleFavourite={toggle}
           onSelectService={onSelectService}

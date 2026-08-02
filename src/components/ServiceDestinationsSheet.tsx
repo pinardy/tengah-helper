@@ -1,8 +1,13 @@
 import { useEffect } from "react";
+import type { BusArrivalResponse } from "../../shared/lta-types";
 import { destinationsForService } from "../config/destinations";
+import { ArrivalBadge } from "./ArrivalBadge";
 
 interface Props {
   serviceNo: string;
+  /** Live arrivals keyed by stop — shows the next departure per row. */
+  data?: Record<string, BusArrivalResponse>;
+  now?: Date;
   /** Scroll to the tapped destination's card, then close. */
   onSelectDestination: (destinationId: string) => void;
   onClose: () => void;
@@ -12,7 +17,13 @@ interface Props {
  * Bottom sheet listing every destination a bus service reaches. Opened by
  * tapping a service number on the Destinations screen.
  */
-export function ServiceDestinationsSheet({ serviceNo, onSelectDestination, onClose }: Props) {
+export function ServiceDestinationsSheet({
+  serviceNo,
+  data,
+  now,
+  onSelectDestination,
+  onClose,
+}: Props) {
   const entries = destinationsForService(serviceNo);
 
   useEffect(() => {
@@ -40,23 +51,33 @@ export function ServiceDestinationsSheet({ serviceNo, onSelectDestination, onClo
           </button>
         </header>
         <ul className="sheet-list">
-          {entries.map(({ destination, option }) => (
-            <li key={destination.id}>
-              <button
-                className="sheet-item"
-                onClick={() => onSelectDestination(destination.id)}
-              >
-                <span className="dest-icon">{destination.icon}</span>
-                <span className="sheet-item-details">
-                  <span className="sheet-item-name">{destination.name}</span>
-                  <span className="sheet-item-alight">
-                    alight {option.alightStop}
-                    {option.notes ? ` · ${option.notes}` : ""}
+          {entries.map(({ destination, option }) => {
+            const service = data?.[option.boardStopCode]?.Services.find(
+              (s) => s.ServiceNo === serviceNo,
+            );
+            return (
+              <li key={destination.id}>
+                <button
+                  className="sheet-item"
+                  onClick={() => onSelectDestination(destination.id)}
+                >
+                  <span className="dest-icon">{destination.icon}</span>
+                  <span className="sheet-item-details">
+                    <span className="sheet-item-name">{destination.name}</span>
+                    <span className="sheet-item-alight">
+                      alight {option.alightStop}
+                      {option.notes ? ` · ${option.notes}` : ""}
+                    </span>
                   </span>
-                </span>
-              </button>
-            </li>
-          ))}
+                  {service && now && (
+                    <span className="sheet-item-badge">
+                      <ArrivalBadge bus={service.NextBus} now={now} />
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

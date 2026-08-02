@@ -94,9 +94,23 @@ export function GoingHomeScreen() {
             {services !== null && services.length === 0 && (
               <p className="card-note">No Tengah-bound buses in service</p>
             )}
-            {services?.map((service) => (
-              <ServiceRow key={service.ServiceNo} service={service} now={now} />
-            ))}
+            {services?.map((service) => {
+              const ride = stop.rideMins[service.ServiceNo];
+              const wait = minutesUntil(service.NextBus.EstimatedArrival, now);
+              const homeEta =
+                ride != null && wait !== null
+                  ? `🏠 home ~${clockTimeIn(wait + ride, now)}`
+                  : null;
+              return (
+                <ServiceRow
+                  key={service.ServiceNo}
+                  service={service}
+                  now={now}
+                  extraHint={homeEta}
+                  lastBusTimes={stop.lastBus?.[service.ServiceNo]}
+                />
+              );
+            })}
           </section>
         );
       })}

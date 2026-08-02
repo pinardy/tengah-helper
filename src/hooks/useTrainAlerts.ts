@@ -3,6 +3,12 @@ import { API_BASE } from "../api/busArrival";
 
 const POLL_MS = 2 * 60_000;
 
+// Lines a Parc Meadow resident actually connects to via the config's routes
+// (NSL at Bukit Batok/Gombak/Jurong East, EWL at Boon Lay/Chinese Garden/
+// Jurong East, DTL at Beauty World). Alerts for other lines are noise here.
+// Add "JRL" when the Jurong Region Line opens.
+const RELEVANT_LINES = new Set(["NSL", "EWL", "DTL"]);
+
 // LTA TrainServiceAlerts: Status 1 = normal, 2 = disrupted.
 interface TrainAlertsResponse {
   value?: {
@@ -43,10 +49,14 @@ export function useTrainAlerts(): TrainAlertState | null {
           : value.Message
             ? [value.Message]
             : [];
+        // Only surface disruptions on lines this app's routes connect to.
+        // A lineless alert (no AffectedSegments) is kept — better a false
+        // positive than hiding a real disruption we can't attribute.
+        const relevant = lines.filter((l) => RELEVANT_LINES.has(l));
         if (!cancelled) {
           setAlert({
-            disrupted: value.Status === 2,
-            lines,
+            disrupted: value.Status === 2 && (lines.length === 0 || relevant.length > 0),
+            lines: relevant,
             message: messages[0]?.Content ?? "",
           });
         }
